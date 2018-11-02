@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
@@ -62,7 +63,7 @@ public class MainActivity extends Activity {
         mRecycleView.setLayoutManager(layoutManager);
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
         //设置 Header 为 贝塞尔雷达 样式
-        mRefreshLayout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
+        mRefreshLayout.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(true));
         //设置 Footer 为 球脉冲 样式
         mRefreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         mRecycleView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -74,11 +75,21 @@ public class MainActivity extends Activity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
 
-                bean.clear();
-                initDate(0, 8);
-                recycleAdapter.notifyDataSetChanged();
-                refreshlayout.finishRefresh();
-                i = 0;
+                if("0".equals(i)){
+                    initDate(0, 8);
+                    recycleAdapter.notifyDataSetChanged();
+                    refreshlayout.finishRefresh();
+                    i = 0;
+                }
+                else {
+                    bean.clear();
+                    initDate(0, 8);
+                    recycleAdapter.notifyDataSetChanged();
+                    refreshlayout.finishRefresh();
+                    i = 0;
+                }
+
+
                 
 
             }
@@ -163,9 +174,8 @@ public class MainActivity extends Activity {
     }
 
 
-    //
-    private void LoadDate(Integer start, Integer limit) {
 
+    private void LoadDate(Integer start, Integer limit) {
 
         OkHttpClient client = new OkHttpClient();
         final Message message = new Message();
@@ -226,8 +236,7 @@ public class MainActivity extends Activity {
         }
     };
 
-    public void Log(){
 
-    }
+
 
 }
