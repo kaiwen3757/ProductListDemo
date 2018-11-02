@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ProductListDemo</string>
+    <string name="commodity_name">一次性3层防尘口罩50/1盒</string>
+    <string name="commodity_pice">Y8.1</string>
+    <string name="shop_name">魔香旗舰店</string>
+    <string name="hand_pice">到手价</string>
+    <string name="hand_pices">Y6.1</string>
+    <string name="favorable_price">2元</string>
+</resources>
