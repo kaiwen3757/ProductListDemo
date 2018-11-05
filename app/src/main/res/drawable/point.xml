@@ -3,11 +3,14 @@
 
 
     <!-- 实心 -->
-    <solid android:color="@android:color/white" /> <!-- 边框 -->
+    <solid android:color="@android:color/white" />
+    <!-- 边框 -->
     <stroke
         android:width="0.5dp"
-        android:color="#ff3333" /> <!-- 圆角 -->
-    <corners android:radius="3dp" /> <!-- 边距 -->
+        android:color="#C57C97" />
+    <!-- 圆角 -->
+    <corners android:radius="3dp" />
+    <!-- 边距 -->
     <padding
         android:bottom="2dp"
         android:left="6dp"

@@ -28,19 +28,26 @@
                 android:id="@+id/commodity_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
+                android:textSize="19dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#555555"
                 android:text="@string/commodity_name"/>
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="3dp">
+                android:layout_marginTop="6dp">
+
                 <TextView
                     android:id="@+id/commodity_pice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:text="@string/commodity_pice"/>
+                    android:text="@string/commodity_pice"
+                    android:layout_marginTop="3dp"
+                    android:textColor="#9D9D9D"
+                    android:textSize="18dp" />
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="30dp"
@@ -57,22 +64,24 @@
                     android:text="@string/favorable_price"/>
             </LinearLayout>
             <LinearLayout
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="7dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/hand_pices"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hand_pices"
+                    android:textStyle="bold"
                     android:textSize="20dp"
-                    android:textColor="#ff3333"/>
+                    android:textColor="#F6413B"/>
                 <TextView
                     android:id="@+id/hand_pice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:textColor="#C57C97"
                     android:background="@drawable/point"
                     android:text="@string/hand_pice" />
             </LinearLayout>
@@ -88,6 +97,8 @@
                 <TextView
                     android:id="@+id/shop_name"
                     android:layout_marginLeft="10dp"
+                    android:textColor="#868686"
+                    android:textSize="17dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/shop_name"/>
@@ -100,7 +111,7 @@
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#D0D0D0"></View>
+        android:background="#EEEEEE"></View>
 
 
 </LinearLayout>

@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
                     i = 0;
                 }
                 else {
-                    bean.clear();
+
                     initDate(0, 8);
                     recycleAdapter.notifyDataSetChanged();
                     refreshlayout.finishRefresh();
@@ -110,11 +110,14 @@ public class MainActivity extends Activity {
 
                 }else {
 
-                    LoadDate(i*8,i*8+8);
-                    recycleAdapter.notifyDataSetChanged();
+                    LoadDate((i+1)*8,(i+2)*8);
+                    Log.e("凯文3","     你好" + i*8 + "   " + (i+1)*8);
+
                     refreshlayout.finishLoadmore();
                     Log.e("凯文2"," zai else zhong" + i );
                     i++;
+
+
                 }
 
 
@@ -137,6 +140,7 @@ public class MainActivity extends Activity {
 
 
     private void initDate(Integer start, Integer limit) {
+
 
 
         OkHttpClient client = new OkHttpClient();
@@ -175,15 +179,17 @@ public class MainActivity extends Activity {
 
 
 
-    private void LoadDate(Integer start, Integer limit) {
+    private void LoadDate(Integer start2, Integer limit2) {
+        Log.e("凯文4",start2 + "   " + limit2);
 
         OkHttpClient client = new OkHttpClient();
         final Message message = new Message();
-        MediaType Json = MediaType.parse("application/json;charset=utf-8");
-        RequestBody body = RequestBody.create(Json, getUrl(start, limit));
+        MediaType Json2 = MediaType.parse("application/json;charset=utf-8");
+        Log.e("凯文3","返回的数据是" + getUrl(start2, limit2));
+        //RequestBody body = RequestBody.create(Json2, getUrl(start2, limit2));
         Request request = new Request.Builder()
-                .url("http://rc.bbbao.com/api/fsearch?&source_id=6228&sort=default&v=a&")
-                .post(body)
+                .url("http://rc.bbbao.com/api/fsearch?&source_id=6228&sort=default&v=a&start="+start2+"&limit=" + limit2)
+
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -196,8 +202,7 @@ public class MainActivity extends Activity {
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
 
-                Log.e("凯文", str);
-
+                Log.e("凯文加载", str);
                 message.what = 2;
                 Gson gson = new Gson();
                 Commodity_Bean bean = gson.fromJson(str, Commodity_Bean.class);
@@ -229,6 +234,7 @@ public class MainActivity extends Activity {
                 case 2:
                     Loadbean = ((Commodity_Bean) msg.obj).getResults();
                     Log.e("凯文", Loadbean.get(0).getName());
+                    recycleAdapter.notifyDataSetChanged();
                     bean.addAll(Loadbean);
                     break;
             }
