@@ -237,4 +237,12 @@ public class MainActivity extends Activity {
         }
     };
 
+    //这是我测试用的方法
+    public void kaiwen(){
+
+        Log.e("凯文","你好我要提价" +
+                "gitle ");
+    }
+
+
 }
