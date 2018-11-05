@@ -242,6 +242,7 @@ public class MainActivity extends Activity {
 
 
 
+
         Log.e("新","asdfasdfasdfa");
         Log.e("新","asdfasdfasdfa");
         Log.e("新","asdfasdfasdfa");
@@ -251,9 +252,20 @@ public class MainActivity extends Activity {
         Log.e("新","asdfasdfasdfa");
         Log.e("新","asdfasdfasdfa");
 
+
+        Log.e("美","美美美美美美美美美美美");
+        Log.e("美","美美美美美美美美美美美");
+        Log.e("美","美美美美美美美美美美美");
+        Log.e("美","美美美美美美美美美美美");
+        Log.e("美","美美美美美美美美美美美");
+        Log.e("美","美美美美美美美美美美美");
+        Log.e("美","美美美美美美美美美美美");
+
+        Log.e("美","美美美美美美美美美美美");
+
         Log.e("凯文","你好我要提价" +"我在联系冲突解决放啊" +
                         "看看自己能不嗯给你解决冲突" +
-                        
+
                 "gitle ");
 
     }
