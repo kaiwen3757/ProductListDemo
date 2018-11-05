@@ -241,8 +241,14 @@ public class MainActivity extends Activity {
     public void kaiwen(){
 
 
-        Log.e("凯文","你好我要提价" +
-                "gitle ");
+        Log.e("新","asdfasdfasdfa");
+        Log.e("新","asdfasdfasdfa");
+        Log.e("新","asdfasdfasdfa");
+        Log.e("新","asdfasdfasdfa");
+        Log.e("新","asdfasdfasdfa");
+        Log.e("新","asdfasdfasdfa");
+        Log.e("新","asdfasdfasdfa");
+        Log.e("新","asdfasdfasdfa");
     }
 
 
