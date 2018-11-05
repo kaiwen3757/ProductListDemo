@@ -75,22 +75,19 @@ public class MainActivity extends Activity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
 
-                if("0".equals(i)){
+                if ("0".equals(i)) {
+                    initDate(0, 8);
+                    recycleAdapter.notifyDataSetChanged();
+                    refreshlayout.finishRefresh();
+                    i = 0;
+                } else {
+
                     initDate(0, 8);
                     recycleAdapter.notifyDataSetChanged();
                     refreshlayout.finishRefresh();
                     i = 0;
                 }
-                else {
 
-                    initDate(0, 8);
-                    recycleAdapter.notifyDataSetChanged();
-                    refreshlayout.finishRefresh();
-                    i = 0;
-                }
-
-
-                
 
             }
         });
@@ -101,20 +98,20 @@ public class MainActivity extends Activity {
             public void onLoadmore(RefreshLayout refreshlayout) {
 
 
-                if("0".equals(i)){
-                    LoadDate(0,8);
+                if ("0".equals(i)) {
+                    LoadDate(0, 8);
                     recycleAdapter.notifyDataSetChanged();
                     refreshlayout.finishLoadmore();
                     i++;
-                    Log.e("凯文2","zai 0 li mian  " + i);
+                    Log.e("凯文2", "zai 0 li mian  " + i);
 
-                }else {
+                } else {
 
-                    LoadDate((i+1)*8,(i+2)*8);
-                    Log.e("凯文3","     你好" + i*8 + "   " + (i+1)*8);
+                    LoadDate((i + 1) * 8, (i + 2) * 8);
+                    Log.e("凯文3", "     你好" + i * 8 + "   " + (i + 1) * 8);
 
                     refreshlayout.finishLoadmore();
-                    Log.e("凯文2"," zai else zhong" + i );
+                    Log.e("凯文2", " zai else zhong" + i);
                     i++;
 
 
@@ -140,7 +137,6 @@ public class MainActivity extends Activity {
 
 
     private void initDate(Integer start, Integer limit) {
-
 
 
         OkHttpClient client = new OkHttpClient();
@@ -178,17 +174,16 @@ public class MainActivity extends Activity {
     }
 
 
-
     private void LoadDate(Integer start2, Integer limit2) {
-        Log.e("凯文4",start2 + "   " + limit2);
+        Log.e("凯文4", start2 + "   " + limit2);
 
         OkHttpClient client = new OkHttpClient();
         final Message message = new Message();
         MediaType Json2 = MediaType.parse("application/json;charset=utf-8");
-        Log.e("凯文3","返回的数据是" + getUrl(start2, limit2));
+        Log.e("凯文3", "返回的数据是" + getUrl(start2, limit2));
         //RequestBody body = RequestBody.create(Json2, getUrl(start2, limit2));
         Request request = new Request.Builder()
-                .url("http://rc.bbbao.com/api/fsearch?&source_id=6228&sort=default&v=a&start="+start2+"&limit=" + limit2)
+                .url("http://rc.bbbao.com/api/fsearch?&source_id=6228&sort=default&v=a&start=" + start2 + "&limit=" + limit2)
 
                 .build();
 
@@ -241,8 +236,5 @@ public class MainActivity extends Activity {
 
         }
     };
-
-
-
 
 }
