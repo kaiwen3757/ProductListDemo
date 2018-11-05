@@ -219,7 +219,7 @@ public class MainActivity extends Activity {
 
             switch (msg.what) {
                 case 1:
-
+    
                     bean = ((Commodity_Bean) msg.obj).getResults();
                     Log.e("凯文", bean.get(0).getName());
                     recycleAdapter = new RecycleAdapter(getApplicationContext(), bean);
@@ -240,9 +240,11 @@ public class MainActivity extends Activity {
     //这是我测试用的方法
     public void kaiwen(){
 
+
         Log.e("凯文","你好我要提价" +
                 "gitle ");
     }
+
 
 
 }
