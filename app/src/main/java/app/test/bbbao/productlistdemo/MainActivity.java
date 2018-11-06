@@ -1,28 +1,32 @@
 package app.test.bbbao.productlistdemo;
 
 import android.app.Activity;
+import android.content.Context;
+import android.icu.util.TimeUnit;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,18 +79,10 @@ public class MainActivity extends Activity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
 
-                if ("0".equals(i)) {
-                    initDate(0, 8);
-                    recycleAdapter.notifyDataSetChanged();
-                    refreshlayout.finishRefresh();
-                    i = 0;
-                } else {
 
-                    initDate(0, 8);
-                    recycleAdapter.notifyDataSetChanged();
-                    refreshlayout.finishRefresh();
-                    i = 0;
-                }
+                initDate(0, 8);
+
+                refreshlayout.finishRefresh();
 
 
             }
@@ -98,20 +94,23 @@ public class MainActivity extends Activity {
             public void onLoadmore(RefreshLayout refreshlayout) {
 
 
+                /**
+                 *判断是否是第一页
+                 * 如果是第一页则传入0和8
+                 * 如果不是第一页则传入计算出页数的初始值和结束值访问数据
+                 */
+
                 if ("0".equals(i)) {
                     LoadDate(0, 8);
                     recycleAdapter.notifyDataSetChanged();
                     refreshlayout.finishLoadmore();
                     i++;
-                    Log.e("凯文2", "zai 0 li mian  " + i);
 
                 } else {
 
                     LoadDate((i + 1) * 8, (i + 2) * 8);
-                    Log.e("凯文3", "     你好" + i * 8 + "   " + (i + 1) * 8);
 
                     refreshlayout.finishLoadmore();
-                    Log.e("凯文2", " zai else zhong" + i);
                     i++;
 
 
@@ -136,6 +135,7 @@ public class MainActivity extends Activity {
     }
 
 
+    //初始方法
     private void initDate(Integer start, Integer limit) {
 
 
@@ -152,19 +152,35 @@ public class MainActivity extends Activity {
             @Override
             public void onFailure(Call call, IOException e) {
 
+                if (e instanceof SocketTimeoutException) {
+                    //网络连接超时
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this,"网络超时",Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+                if (e instanceof ConnectException) {
+                    //网络连接异常
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this,"网络",Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+
+                }
+                if(e instanceof UnknownHostException){
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this,"请检查网络是否连接",Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
 
-                Log.e("凯文", str);
-
                 message.what = 1;
                 Gson gson = new Gson();
                 Commodity_Bean bean = gson.fromJson(str, Commodity_Bean.class);
+                Log.e("凯文88888", "你好 " + bean.getInfo());
                 message.obj = bean;
-                Log.e("凯文", bean.getResults().get(0).getName());
                 mhandler.sendMessage(message);
 
             }
@@ -174,13 +190,19 @@ public class MainActivity extends Activity {
     }
 
 
+    //加载更多
     private void LoadDate(Integer start2, Integer limit2) {
-        Log.e("凯文4", start2 + "   " + limit2);
 
-        OkHttpClient client = new OkHttpClient();
+        getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
+                .writeTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .build();
         final Message message = new Message();
         MediaType Json2 = MediaType.parse("application/json;charset=utf-8");
-        Log.e("凯文3", "返回的数据是" + getUrl(start2, limit2));
         //RequestBody body = RequestBody.create(Json2, getUrl(start2, limit2));
         Request request = new Request.Builder()
                 .url("http://rc.bbbao.com/api/fsearch?&source_id=6228&sort=default&v=a&start=" + start2 + "&limit=" + limit2)
@@ -191,18 +213,35 @@ public class MainActivity extends Activity {
             @Override
             public void onFailure(Call call, IOException e) {
 
+                if (e instanceof SocketTimeoutException) {
+                    //网络连接超时
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this,"网络超时",Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+                if (e instanceof ConnectException) {
+                    //网络连接异常
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this,"网络",Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+
+                }
+                if(e instanceof UnknownHostException){
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this,"请检查网络是否连接",Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
 
-                Log.e("凯文加载", str);
                 message.what = 2;
                 Gson gson = new Gson();
                 Commodity_Bean bean = gson.fromJson(str, Commodity_Bean.class);
                 message.obj = bean;
-                Log.e("凯文", bean.getResults().get(0).getName());
                 mhandler.sendMessage(message);
 
             }
@@ -219,16 +258,14 @@ public class MainActivity extends Activity {
 
             switch (msg.what) {
                 case 1:
-    
+
                     bean = ((Commodity_Bean) msg.obj).getResults();
-                    Log.e("凯文", bean.get(0).getName());
                     recycleAdapter = new RecycleAdapter(getApplicationContext(), bean);
+                    recycleAdapter.notifyDataSetChanged();
                     mRecycleView.setAdapter(recycleAdapter);
-                    //mRecycleView.invalidate();
                     break;
                 case 2:
                     Loadbean = ((Commodity_Bean) msg.obj).getResults();
-                    Log.e("凯文", Loadbean.get(0).getName());
                     recycleAdapter.notifyDataSetChanged();
                     bean.addAll(Loadbean);
                     break;
@@ -238,38 +275,35 @@ public class MainActivity extends Activity {
     };
 
     //这是我测试用的方法
-    public void kaiwen(){
+    public void kaiwen() {
 
 
+        Log.e("新", "asdfasdfasdfa");
+        Log.e("新", "asdfasdfasdfa");
+        Log.e("新", "asdfasdfasdfa");
+        Log.e("新", "asdfasdfasdfa");
+        Log.e("新", "asdfasdfasdfa");
+        Log.e("新", "asdfasdfasdfa");
+        Log.e("新", "asdfasdfasdfa");
+        Log.e("新", "asdfasdfasdfa");
 
 
-        Log.e("新","asdfasdfasdfa");
-        Log.e("新","asdfasdfasdfa");
-        Log.e("新","asdfasdfasdfa");
-        Log.e("新","asdfasdfasdfa");
-        Log.e("新","asdfasdfasdfa");
-        Log.e("新","asdfasdfasdfa");
-        Log.e("新","asdfasdfasdfa");
-        Log.e("新","asdfasdfasdfa");
+        Log.e("美", "美美美美美美美美美美美");
+        Log.e("美", "美美美美美美美美美美美");
+        Log.e("美", "美美美美美美美美美美美");
+        Log.e("美", "美美美美美美美美美美美");
+        Log.e("美", "美美美美美美美美美美美");
+        Log.e("美", "美美美美美美美美美美美");
+        Log.e("美", "美美美美美美美美美美美");
 
+        Log.e("美", "美美美美美美美美美美美");
 
-        Log.e("美","美美美美美美美美美美美");
-        Log.e("美","美美美美美美美美美美美");
-        Log.e("美","美美美美美美美美美美美");
-        Log.e("美","美美美美美美美美美美美");
-        Log.e("美","美美美美美美美美美美美");
-        Log.e("美","美美美美美美美美美美美");
-        Log.e("美","美美美美美美美美美美美");
-
-        Log.e("美","美美美美美美美美美美美");
-
-        Log.e("凯文","你好我要提价" +"我在联系冲突解决放啊" +
-                        "看看自己能不嗯给你解决冲突" +
+        Log.e("凯文", "你好我要提价" + "我在联系冲突解决放啊" +
+                "看看自己能不嗯给你解决冲突" +
 
                 "gitle ");
 
     }
-
 
 
 }
